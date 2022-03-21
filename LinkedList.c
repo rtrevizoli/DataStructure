@@ -8,6 +8,21 @@ typedef struct List
     struct List* next; 
 } List; 
 
+List* findLast(List* lst) {
+    if (!lst)
+        return lst;
+    
+    List *p = lst;
+    List *q = lst->next;
+    
+    while (q != NULL) {
+        p = q;
+        q = q->next;
+    }
+
+    return p;
+}
+
 List* insert(int value, List* cel, int pos)  
 { 
     List* newCel; 
@@ -65,7 +80,27 @@ void print(List* lst) {
 int main() 
 { 
     List* lst; 
- 
+    
+    List* melo = NULL;
+
+    melo = insert(10, melo, 0); 
+    
+    List* p = findLast(melo);
+    
+    List* newCel = malloc(sizeof(List));
+    newCel->value = 13;
+    newCel->next = NULL;
+    
+    p->next = newCel;
+    
+    /*if (!p) {
+        melo=p=newCel;
+    }*/
+        
+    print(melo);
+    
+    /*10 lines wrote above is about findLast and identify null_ptr*/
+    
     /*lst = malloc(sizeof(List));
     lst->next=NULL;*/
     
