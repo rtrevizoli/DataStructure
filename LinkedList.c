@@ -8,7 +8,20 @@ typedef struct List
     struct List* next; 
 } List; 
 
-List* findLast(List* lst) {
+List* insertFirst(int value, List* cel)
+{
+    List* newCel; 
+
+    newCel = malloc(sizeof(List)); 
+    
+    newCel->value = value; 
+    newCel->next = cel;
+
+    return newCel;
+}
+
+List* findLast(List* lst) 
+{
     if (!lst)
         return lst;
     
@@ -21,6 +34,20 @@ List* findLast(List* lst) {
     }
 
     return p;
+}
+
+void insertLast(int value, List* cel)
+{
+    List* newCel; 
+
+    newCel = malloc(sizeof(List)); 
+    
+    newCel->value = value; 
+    
+    List* p = findLast(cel);
+        
+    p->next = newCel;
+    newCel->next = NULL;
 }
 
 List* insert(int value, List* cel, int pos)  
@@ -82,38 +109,21 @@ int main()
     List* lst; 
     
     List* melo = NULL;
-
-    melo = insert(10, melo, 0); 
     
-    List* p = findLast(melo);
-    
-    List* newCel = malloc(sizeof(List));
-    newCel->value = 13;
-    newCel->next = NULL;
-    
-    p->next = newCel;
-    
-    /*if (!p) {
-        melo=p=newCel;
-    }*/
-        
-    print(melo);
-    
-    /*10 lines wrote above is about findLast and identify null_ptr*/
-    
+    /* Uncommente these lines above to make a headed list */
     /*lst = malloc(sizeof(List));
+    lst->value=0;
     lst->next=NULL;*/
     
-    lst = insert(10, lst, 0); 
-    lst = insert(20, lst, 0); 
-    lst = insert(30, lst, -1);
-    lst = insert(40, lst, -1);
-    lst = insert(50, lst, 0);
-    lst = insert(60, lst, 2);
-    
-    /*50 - 20 - 10 - 30 - 40*/
-    
-    print(lst);
 
+    melo = insertFirst(10, melo);
+    melo = insertFirst(20, melo);
+    melo = insertFirst(30, melo);
+
+    insertLast(40, melo);
+    
+    /* 30 - 20 - 10 - 40*/
+    print(melo);
+    
     return 0;
 } 
