@@ -50,52 +50,49 @@ void insertLast(int value, List* cel)
     newCel->next = NULL;
 }
 
-List* insert(int value, List* cel, int pos)  
+List* insertPos(int value, List* cel, int pos)  
 { 
     List* newCel; 
 
     newCel = malloc(sizeof(List)); 
     
     newCel->value = value; 
-    
-    if (pos == 0) {
-        newCel->next = cel;
-    } else if (pos == -1) {
-        List *p = cel;
-        List *q = cel->next;
-        
-        while (q != NULL) {
-            p = q;
-            q = q->next;
-        }
-        
-        p->next = newCel;
-        newCel->next = NULL;
 
-        return cel;
-    } else {
-        List *p = cel;
-        List *q = cel->next;
-        int i = 1;
+    List* o = NULL;
+    List* p = cel;
+    List* q = cel->next;
+    int i = 0;
+    
+    /* If pos not found insertLast */
+    while (q != NULL) 
+    {
+        if (i == pos)
+            break;
         
-        while (q != NULL) {
-            p = q;
-            q = q->next;
-            
-            i++;
-            
-            if (i == pos)
-                break;
-                
-        }
+        o = p;    
+        p = q;
+        q = q->next;
         
-        p->next = newCel;
-        newCel->next = q;
-        
-        return cel;
+        i++;
     }
     
-    return newCel;
+    if (i == 0)
+    {
+        newCel->next = cel;
+        
+        return newCel;
+    } else if (i == pos)
+    {
+        newCel->next = p;
+        o->next = newCel;
+        
+    } else
+    {
+        p->next = newCel;
+        newCel->next = q;
+    }
+
+    return cel;
 } 
 
 void print(List* lst) { 
@@ -106,24 +103,25 @@ void print(List* lst) {
 
 int main() 
 { 
-    List* lst; 
-    
-    List* melo = NULL;
+    List* lst = NULL;
     
     /* Uncommente these lines above to make a headed list */
     /*lst = malloc(sizeof(List));
     lst->value=0;
     lst->next=NULL;*/
+
+
+    lst = insertFirst(10, lst);
+    lst = insertFirst(20, lst);
+    lst = insertFirst(30, lst);
+
+    insertLast(40, lst);
+    
+    lst = insertPos(99, lst, 10);
     
 
-    melo = insertFirst(10, melo);
-    melo = insertFirst(20, melo);
-    melo = insertFirst(30, melo);
-
-    insertLast(40, melo);
-    
     /* 30 - 20 - 10 - 40*/
-    print(melo);
+    print(lst);
     
     return 0;
 } 
