@@ -87,14 +87,13 @@ List* insertPos(int value, List* cel, int pos)
     {
         newCel->next = cel->next;
         cel->next = newCel;
-        
-        return cel;
-    } else if (i == pos)
+    }
+    else if (i == pos)
     {
         newCel->next = p;
         o->next = newCel;
-        
-    } else
+    }
+    else
     {
         p->next = newCel;
         newCel->next = q;
