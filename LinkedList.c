@@ -1,5 +1,6 @@
 #include <stdio.h> 
-#include <stdlib.h> 
+#include <stdlib.h>
+#include <stdbool.h>
 
 
 typedef struct List 
@@ -15,6 +16,7 @@ List* insertFirst(int value, List* cel)
     newCel = malloc(sizeof(List)); 
     
     newCel->value = value; 
+    
     newCel->next = cel;
 
     return newCel;
@@ -78,9 +80,10 @@ List* insertPos(int value, List* cel, int pos)
     
     if (i == 0)
     {
-        newCel->next = cel;
+        newCel->next = cel->next;
+        cel->next = newCel;
         
-        return newCel;
+        return cel;
     } else if (i == pos)
     {
         newCel->next = p;
@@ -95,22 +98,32 @@ List* insertPos(int value, List* cel, int pos)
     return cel;
 } 
 
-void print(List* lst) { 
-    List *p;
-    for(p = lst; p != NULL; p = p->next)
-        printf("%d\n", p->value);
-} 
-
-int main() 
-{ 
-    List* lst = NULL;
+List* createHList(List* lst)
+{
+    printf("List with head\n---\n");
     
-    /* Uncommente these lines above to make a headed list */
-    /*lst = malloc(sizeof(List));
-    lst->value=0;
-    lst->next=NULL;*/
+    lst = malloc(sizeof(List));
+    lst->next = NULL;
+    
+    lst = insertPos(10, lst, 0);
+    lst = insertPos(20, lst, 0);
+    lst = insertPos(30, lst, 0);
+    
+    insertLast(40, lst);
+    
+    lst = insertPos(99, lst, 10);
+    
+    /*lst = insertFirst(10, lst);
+    lst = insertFirst(20, lst);
+    lst = insertFirst(30, lst);*/
+    
+    return lst;
+}
 
-
+List* createList(List* lst)
+{
+    printf("List without head\n---\n");
+    
     lst = insertFirst(10, lst);
     lst = insertFirst(20, lst);
     lst = insertFirst(30, lst);
@@ -119,9 +132,25 @@ int main()
     
     lst = insertPos(99, lst, 10);
     
+    return lst;
+}
 
-    /* 30 - 20 - 10 - 40*/
-    print(lst);
+void printList(List* lst) 
+{ 
+    List *p;
+    for(p = lst; p != NULL; p = p->next)
+        printf("%d->", p->value);
+} 
+
+int main() 
+{ 
+    bool m_head = false;
+    List* lst = NULL;
+    
+    lst = m_head ? createHList(lst) : createList(lst);
+    
+    /* 30 - 20 - 10 - 40 - 99 */
+    printList(lst);
     
     return 0;
 } 
