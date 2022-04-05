@@ -109,6 +109,48 @@ void removeLast(List* lst)
     o->next = NULL;
 }
 
+List* removePos(List* cel, int pos)
+{
+    List* o = NULL;
+    List* p = cel;
+    List* q = cel->next;
+    int i = 0;
+    
+    /* If pos not found removeLast */
+    while (q != NULL) 
+    {
+        if (i == pos)
+            break;
+        
+        o = p;    
+        p = q;
+        q = q->next;
+        
+        i++;
+    }
+    
+    if (i == 0)
+    {
+        p->next = q->next;
+        free(q);
+    }
+    else 
+    {
+        if (i == pos && q)
+        {
+            p->next = q->next;
+            free(q);
+        }
+        else
+        {
+        free(o->next);
+        o->next = NULL;
+        }
+    }
+    
+    return cel;
+}
+
 List* createHList(List* lst)
 {
     printf("List with head\n---\n");
@@ -116,15 +158,28 @@ List* createHList(List* lst)
     lst = malloc(sizeof(List));
     lst->next = NULL;
     
+    /* Insert first */
     lst = insertPos(10, lst, 0);
     lst = insertPos(20, lst, 0);
     lst = insertPos(30, lst, 0);
     
+    /* Insert last */
     insertLast(40, lst);
     
+    /* Insert Last */
     lst = insertPos(99, lst, 10);
     
-    removeLast(lst);
+    /* Insert pos 0 || 1 inserting on same position FIX IT*/
+    lst = insertPos(35, lst, 1);
+    
+    /* Remove last position */
+    //removeLast(lst);
+    
+    /* Remove last position */
+    //lst = removePos(lst, 10);
+    
+    /* Remove first position, head not counting */
+    //lst = removePos(lst, 0);
     
     return lst;
 }
