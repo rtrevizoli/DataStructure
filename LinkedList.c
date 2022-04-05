@@ -22,18 +22,23 @@ List* insertFirst(int value, List* cel)
     return newCel;
 }
 
-List* findLast(List* lst) 
+List* findLast(List* lst, bool rm) 
 {
     if (!lst)
         return lst;
     
-    List *p = lst;
-    List *q = lst->next;
+    List* o = NULL;
+    List* p = lst;
+    List* q = lst->next;
     
     while (q != NULL) {
+        o = p;
         p = q;
         q = q->next;
     }
+    
+    if (rm)
+        return o;
 
     return p;
 }
@@ -46,7 +51,7 @@ void insertLast(int value, List* cel)
     
     newCel->value = value; 
     
-    List* p = findLast(cel);
+    List* p = findLast(cel, false);
         
     p->next = newCel;
     newCel->next = NULL;
@@ -98,6 +103,13 @@ List* insertPos(int value, List* cel, int pos)
     return cel;
 } 
 
+void removeLast(List* lst)
+{
+    List* o = findLast(lst, true);
+    free(o->next);
+    o->next = NULL;
+}
+
 List* createHList(List* lst)
 {
     printf("List with head\n---\n");
@@ -113,9 +125,7 @@ List* createHList(List* lst)
     
     lst = insertPos(99, lst, 10);
     
-    /*lst = insertFirst(10, lst);
-    lst = insertFirst(20, lst);
-    lst = insertFirst(30, lst);*/
+    removeLast(lst);
     
     return lst;
 }
@@ -132,6 +142,8 @@ List* createList(List* lst)
     
     lst = insertPos(99, lst, 10);
     
+    removeLast(lst);
+    
     return lst;
 }
 
@@ -144,7 +156,7 @@ void printList(List* lst)
 
 int main() 
 { 
-    bool m_head = false;
+    bool m_head = true;
     List* lst = NULL;
     
     lst = m_head ? createHList(lst) : createList(lst);
