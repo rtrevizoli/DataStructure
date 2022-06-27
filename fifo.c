@@ -9,6 +9,8 @@ typedef struct Cel
 
 void printList(Cel *lst) 
 { 
+    printf("\n====== Queue status ======\n");
+    
     Cel *p;
     for(p = lst; p != NULL; p = p->next)
         printf("%d->", p->value);
@@ -30,6 +32,22 @@ void insertQueue(int value, Cel **iniCel, Cel **finiCel)
     }
 }
 
+int consumeQueue(Cel **iniCel, Cel **finiCel)
+{
+    Cel *p;
+    int freed;
+
+    p = *iniCel;
+    freed = p->value;
+
+    *iniCel = p->next;
+    free(p);
+
+    if (*iniCel == NULL) *finiCel = NULL;
+
+    return freed;
+}
+
 int main() 
 {
     Cel *pi = NULL, *pf = NULL;
@@ -37,6 +55,9 @@ int main()
     insertQueue(10, &pi, &pf);
     insertQueue(20, &pi, &pf);
     insertQueue(30, &pi, &pf);
+
+    printf("%d was removed from queue\n", consumeQueue(&pi, &pf));
+    printf("%d was removed from queue\n", consumeQueue(&pi, &pf));
 
     printList(pi);
 
